@@ -13,7 +13,6 @@ public class Main {
         long stop1 = System.currentTimeMillis();
         System.out.println(stop1 - start1);
 
-
-
+        System.out.println(slangWord.getAllKeys(data));
     }
 }

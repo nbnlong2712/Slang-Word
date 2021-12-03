@@ -25,6 +25,14 @@ public class FindSlangWordScreen extends JFrame implements ActionListener {
                 break;
             case "Find":
                 data = slangWord.findByKey(jTextField.getText().trim());
+                if (data != null || data.length != 0)
+                {
+                    try {
+                        slangWord.saveHistory(jTextField.getText().trim());
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                }
                 DefaultTableModel model = (DefaultTableModel) jTable.getModel();
                 model.setRowCount(0);
                 jTextField.setText("");

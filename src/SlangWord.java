@@ -117,6 +117,50 @@ public class SlangWord {
         return arr;
     }
 
+    public void saveHistory(String slang) throws IOException {
+        FileWriter fw = new FileWriter(FILE_HISTORY, true);
+        fw.write(slang + "\n");
+        fw.flush();
+        fw.close();
+    }
+
+    public String[][] loadHistory() throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(FILE_HISTORY));
+        List<String> keys = new ArrayList<>();
+        List<String> keyArr = new ArrayList<>();
+        List<String> valueArr = new ArrayList<>();
+        String line = br.readLine();
+        while (line != null)
+        {
+            keys.add(line);
+            line = br.readLine();
+        }
+        for (String key : keys) {
+            List<String> values = map.get(key);
+            for (String value : values) {
+                keyArr.add(key);
+                valueArr.add(value);
+            }
+        }
+        String[][] arr = new String[keyArr.size()][2];
+        for (int i=0; i<arr.length; i++)
+        {
+            arr[i][0] = keyArr.get(i);
+            arr[i][1] = valueArr.get(i);
+        }
+        return arr;
+    }
+
+    public List<String> getAllKeys(String[][] arr)
+    {
+        Set<String> set = new HashSet<String>();
+        for (String[] str : arr)
+        {
+            set.add(str[0]);
+        }
+        return new ArrayList<>(set);
+    }
+
     public static void printArray(String[] arr) {
         for (String str : arr) {
             System.out.print(str + ", ");
