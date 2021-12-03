@@ -8,6 +8,12 @@ public class MainScreen extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        switch (e.getActionCommand()) {
+            case "List":
+                this.dispose();
+                new ListScreen().setVisible(true);
+                break;
+        }
     }
 
     public MainScreen() {
