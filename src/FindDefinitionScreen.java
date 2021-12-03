@@ -25,17 +25,21 @@ public class FindDefinitionScreen extends JFrame implements ActionListener {
                 break;
             case "Find":
                 data = slangWord.findByDefinition(jTextField.getText().trim());
-                if (data != null || data.length != 0) {
-                    List<String> listToSave = slangWord.getAllKeys(data);
-                    for (String str : listToSave)
-                    {
-                        try {
-                            slangWord.saveHistory(str);
-                        } catch (IOException ioException) {
-                            ioException.printStackTrace();
+                if (data != null) {
+                    if (data.length != 0) {
+                        List<String> listToSave = slangWord.getAllKeys(data);
+                        for (String str : listToSave) {
+                            try {
+                                slangWord.saveHistory(str);
+                            } catch (IOException ioException) {
+                                ioException.printStackTrace();
+                            }
                         }
                     }
+                    else JOptionPane.showMessageDialog(this, "Can't find " + jTextField.getText().trim());
                 }
+                else JOptionPane.showMessageDialog(this, "Can't find " + jTextField.getText().trim());
+
                 DefaultTableModel model = (DefaultTableModel) jTable.getModel();
                 model.setRowCount(0);
                 jTextField.setText("");

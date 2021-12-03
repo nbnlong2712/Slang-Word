@@ -21,6 +21,10 @@ public class MainScreen extends JFrame implements ActionListener {
                 this.dispose();
                 new HistoryScreen();
                 break;
+            case "Add":
+                this.dispose();
+                new AddScreen();
+                break;
         }
     }
 

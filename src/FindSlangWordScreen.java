@@ -17,28 +17,29 @@ public class FindSlangWordScreen extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        switch (e.getActionCommand())
-        {
+        switch (e.getActionCommand()) {
             case "Back":
                 this.dispose();
                 new FindScreen();
                 break;
             case "Find":
                 data = slangWord.findByKey(jTextField.getText().trim());
-                if (data != null || data.length != 0)
-                {
-                    try {
-                        slangWord.saveHistory(jTextField.getText().trim());
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
+                if (data != null) {
+                    if (data.length != 0) {
+                        try {
+                            slangWord.saveHistory(jTextField.getText().trim());
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
                     }
+                    else JOptionPane.showMessageDialog(this, "Can't find " + jTextField.getText().trim());
                 }
+                else JOptionPane.showMessageDialog(this, "Can't find " + jTextField.getText().trim());
                 DefaultTableModel model = (DefaultTableModel) jTable.getModel();
                 model.setRowCount(0);
                 jTextField.setText("");
-                if (data != null)
-                {
-                    for (String[] str : data){
+                if (data != null) {
+                    for (String[] str : data) {
                         model.addRow(str);
                     }
                 }
@@ -46,7 +47,7 @@ public class FindSlangWordScreen extends JFrame implements ActionListener {
         }
     }
 
-    public FindSlangWordScreen(){
+    public FindSlangWordScreen() {
         slangWord = new SlangWord();
         try {
             slangWord.readFromFile(SlangWord.FILE_COPY);
@@ -59,9 +60,9 @@ public class FindSlangWordScreen extends JFrame implements ActionListener {
 
         JPanel topPanel = new JPanel();
         topPanel.setMaximumSize(new Dimension(1000, 300));
-        topPanel.setBorder(BorderFactory.createEmptyBorder(15,10,10,10));
+        topPanel.setBorder(BorderFactory.createEmptyBorder(15, 10, 10, 10));
         JLabel jLabel = new JLabel("Enter word: ");
-        jLabel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+        jLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         jTextField = new JTextField();
 
@@ -83,10 +84,10 @@ public class FindSlangWordScreen extends JFrame implements ActionListener {
         centerPanel.add(jScrollPane);
 
         JPanel bottomPanel = new JPanel();
-        bottomPanel.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.X_AXIS));
         btnBack = new JButton("BACK");
-        btnBack.setMaximumSize(new Dimension(150,100));
+        btnBack.setMaximumSize(new Dimension(150, 100));
         btnBack.setActionCommand("Back");
         btnBack.addActionListener(this);
         bottomPanel.add(btnBack);
