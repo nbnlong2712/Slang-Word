@@ -8,10 +8,12 @@ public class Main {
 
 
         long start1 = System.currentTimeMillis();
-        String[][] data = slangWord.findByKey("AMA");
+        String[][] data = slangWord.findByDefinition("homework");
         SlangWord.print2dArray(data);
         long stop1 = System.currentTimeMillis();
         System.out.println(stop1 - start1);
+
+
 
     }
 }

@@ -4,8 +4,8 @@ import java.util.*;
 public class SlangWord {
     private TreeMap<String, List<String>> map = new TreeMap<>();
     private int sizeMap;
-    public static final String FILE_ROOT = "slangword-goc.txt";
-    public static final String FILE_COPY = "slangword.txt";
+    public static final String FILE_ROOT = "slang.txt";
+    public static final String FILE_COPY = "slang-copy.txt";
     public static final String FILE_HISTORY = "history.txt";
 
     //----------------CONSTRUCTOR---------------
@@ -92,6 +92,31 @@ public class SlangWord {
         return datas;
     }
 
+    public String[][] findByDefinition(String definition)
+    {
+        List<String> slangs = new ArrayList<>();
+        List<String> definitions = new ArrayList<>();
+        for (Map.Entry<String, List<String>> entry : map.entrySet())
+        {
+            List<String> values = entry.getValue();
+            for (String value : values)
+            {
+                if (value.toLowerCase(Locale.ROOT).contains(definition.toLowerCase(Locale.ROOT).trim()))
+                {
+                    slangs.add(entry.getKey());
+                    definitions.add(value);
+                }
+            }
+        }
+        String[][] arr = new String[slangs.size()][2];
+        for (int i=0; i<arr.length; i++)
+        {
+            arr[i][0] = slangs.get(i);
+            arr[i][1] = definitions.get(i);
+        }
+        return arr;
+    }
+
     public static void printArray(String[] arr) {
         for (String str : arr) {
             System.out.print(str + ", ");
@@ -100,10 +125,7 @@ public class SlangWord {
 
     public static void print2dArray(String[][] arr) {
         for (String[] str : arr) {
-            for (String str1 : str) {
-                System.out.print(str1 + " ");
-            }
+            System.out.println(str[0] + ": " + str[1]);
         }
     }
-
 }

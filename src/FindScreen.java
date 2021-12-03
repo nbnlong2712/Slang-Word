@@ -1,102 +1,94 @@
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 public class FindScreen extends JFrame implements ActionListener {
-    private JButton btnBack, btnFind;
-    private SlangWord slangWord;
-    private JTextField jTextField;
-    private JTable jTable;
-    private String[] columnName = {
-            "Slang word", "Mean"
-    };
-    private String[][] data = {};
+    JButton btnFindSlangWord, btnFindDefinition, btnBack;
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        switch (e.getActionCommand())
-        {
+        switch (e.getActionCommand()) {
+            case "Slang":
+                this.dispose();
+                new FindSlangWordScreen();
+                break;
+            case "Definition":
+                this.dispose();
+                new FindDefinitionScreen();
+                break;
             case "Back":
                 this.dispose();
                 new MainScreen();
                 break;
-            case "Find":
-                data = slangWord.findByKey(jTextField.getText().trim());
-                DefaultTableModel model = (DefaultTableModel) jTable.getModel();
-                model.setRowCount(0);
-                jTextField.setText("");
-                if (data != null)
-                {
-                    for (String[] str : data){
-                        model.addRow(str);
-                    }
-                }
-                break;
         }
     }
 
-    public FindScreen(){
-        slangWord = new SlangWord();
-        try {
-            slangWord.readFromFile(SlangWord.FILE_COPY);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+    public FindScreen() {
+        setLayout(new BorderLayout());
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        JPanel topPanel = new JPanel();
-        topPanel.setMaximumSize(new Dimension(1000, 300));
-        topPanel.setBorder(BorderFactory.createEmptyBorder(15,10,10,10));
-        JLabel jLabel = new JLabel("Enter word: ");
-        jLabel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+        JPanel labelPanel = new JPanel();
+        labelPanel.setMaximumSize(new Dimension(400, 120));
+        JLabel label = new JLabel("FIND");
+        label.setForeground(Color.RED);
+        label.setFont(new Font("Gill Sans MT", Font.ITALIC, 45));
+        label.setAlignmentX(CENTER_ALIGNMENT);
 
-        jTextField = new JTextField();
+        labelPanel.add(label, BorderLayout.CENTER);
 
-        btnFind = new JButton("Find");
-        btnFind.setActionCommand("Find");
-        btnFind.addActionListener(this);
+        JPanel btnPanel = new JPanel();
+        btnPanel.setLayout(new GridLayout(2, 4, 10, 10));
 
-        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
-        topPanel.add(jLabel);
-        topPanel.add(jTextField);
-        topPanel.add(btnFind);
+        btnFindSlangWord = new JButton("Find Slang Word");
+        btnFindSlangWord.setFont(new Font("Gill Sans MT", Font.PLAIN, 16));
+        btnFindSlangWord.setMargin(new Insets(50, 110, 50, 110));
+        btnFindSlangWord.setActionCommand("Slang");
+        btnFindSlangWord.addActionListener(this);
 
-        JPanel centerPanel = new JPanel();
-        centerPanel.setLayout(new BorderLayout());
+        btnFindDefinition = new JButton("Find By Definition");
+        btnFindDefinition.setFont(new Font("Gill Sans MT", Font.PLAIN, 16));
+        btnFindDefinition.setMargin(new Insets(50, 110, 50, 110));
+        btnFindDefinition.setActionCommand("Definition");
+        btnFindDefinition.addActionListener(this);
 
-        jTable = new JTable(new DefaultTableModel(columnName, 0));
+        JPanel findPanel = new JPanel();
+        findPanel.setLayout(new FlowLayout());
+        findPanel.add(btnFindSlangWord);
+        findPanel.add(btnFindDefinition);
 
-        JScrollPane jScrollPane = new JScrollPane(jTable);
-        centerPanel.add(jScrollPane);
-
-        JPanel bottomPanel = new JPanel();
-        bottomPanel.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
-        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.X_AXIS));
-        btnBack = new JButton("BACK");
-        btnBack.setMaximumSize(new Dimension(150,100));
+        btnBack = new JButton("Back");
+        btnBack.setFont(new Font("Gill Sans MT", Font.PLAIN, 16));
         btnBack.setActionCommand("Back");
+        btnBack.setMargin(new Insets(20,70,20,70));
+        btnBack.setSize(300, 300);
         btnBack.addActionListener(this);
-        bottomPanel.add(btnBack);
 
-        panel.add(topPanel);
-        panel.add(centerPanel);
-        panel.add(bottomPanel);
+        JPanel backPanel = new JPanel();
+        backPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        backPanel.add(btnBack);
 
-        Container container = this.getContentPane();
-        container.setMinimumSize(new Dimension(900, 600));
-        container.setMaximumSize(new Dimension(900, 600));
-        container.setPreferredSize(new Dimension(900, 600));
-        container.setLayout(new BorderLayout());
+        btnPanel.add(findPanel);
+        btnPanel.add(backPanel);
 
-        container.add(panel);
+        panel.add(labelPanel);
+        panel.add(btnPanel);
 
+        Container con = this.getContentPane();
+        con.setMaximumSize(new Dimension(900, 600));
+        con.setMinimumSize(new Dimension(900, 600));
+        con.setPreferredSize(new Dimension(900, 600));
+        con.setLayout(new BoxLayout(con, BoxLayout.Y_AXIS));
+        con.add(panel);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.setTitle("Slang Word");
         this.pack();
         this.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new FindScreen();
     }
 }
