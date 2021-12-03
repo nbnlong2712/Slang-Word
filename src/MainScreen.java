@@ -13,6 +13,10 @@ public class MainScreen extends JFrame implements ActionListener {
                 this.dispose();
                 new ListScreen().setVisible(true);
                 break;
+            case "Find":
+                this.dispose();
+                new FindScreen();
+                break;
         }
     }
 
