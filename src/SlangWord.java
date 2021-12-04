@@ -1,9 +1,10 @@
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class SlangWord {
-    private TreeMap<String, List<String>> map = new TreeMap<>();
-    private int sizeMap;
+    private TreeMap<String, List<String>> treeMap = new TreeMap<>();
+    private int lengthValues;
     public static final String FILE_ROOT = "slang.txt";
     public static final String FILE_COPY = "slang-copy.txt";
     public static final String FILE_HISTORY = "history.txt";
@@ -13,19 +14,19 @@ public class SlangWord {
     }
 
     public TreeMap<String, List<String>> getMap() {
-        return map;
+        return treeMap;
     }
 
-    public void setMap(TreeMap<String, List<String>> map) {
-        this.map = map;
+    public void setMap(TreeMap<String, List<String>> treeMap) {
+        this.treeMap = treeMap;
     }
 
     public int getSizeMap() {
-        return sizeMap;
+        return lengthValues;
     }
 
-    public void setSizeMap(int sizeMap) {
-        this.sizeMap = sizeMap;
+    public void setSizeMap(int lengthValues) {
+        this.lengthValues = lengthValues;
     }
 
     //-------------------------------------------
@@ -33,8 +34,8 @@ public class SlangWord {
     void readFromFile(String file) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(file));
         String line = reader.readLine();
-        map.clear();
-        sizeMap = 0;
+        treeMap.clear();
+        lengthValues = 0;
 
         while ((line = reader.readLine()) != null) {
             if (!line.contains("`"))
@@ -42,36 +43,36 @@ public class SlangWord {
             String[] data = line.split("`");
             String key = data[0].trim();
             List<String> meaning = new ArrayList<>();
-            if (map.containsKey(key))
-                meaning = map.get(key);
+            if (treeMap.containsKey(key))
+                meaning = treeMap.get(key);
             if (data[1].contains("|")) {
                 Collections.addAll(meaning, data[1].split("\\|"));
-                sizeMap += data[1].split("\\|").length;
+                lengthValues += data[1].split("\\|").length;
             } else {
                 meaning.add(data[1]);
-                sizeMap++;
+                lengthValues++;
             }
-            map.put(key, meaning);
+            treeMap.put(key, meaning);
         }
     }
 
     public String[][] convertData() {
-        String[][] datas = new String[sizeMap][2];
-        List<String> data = new ArrayList<>(map.keySet());
+        String[][] datas = new String[lengthValues][2];
+        List<String> data = new ArrayList<>(treeMap.keySet());
         int position = 0;
 
-        for (int i = 0; i < sizeMap; i++) {
+        for (int i = 0; i < lengthValues; i++) {
             String key = data.get(position);
-            List<String> values = map.get(key);
+            List<String> values = treeMap.get(key);
             datas[i][0] = key;
             datas[i][1] = values.get(0);
             for (int j = 1; j < values.size(); j++) {
-                if (i < sizeMap)
+                if (i < lengthValues)
                     i++;
                 datas[i][0] = key;
                 datas[i][1] = values.get(j);
             }
-            if (position < map.size() - 1) {
+            if (position < treeMap.size() - 1) {
                 position++;
             }
         }
@@ -79,11 +80,11 @@ public class SlangWord {
     }
 
     public String[][] findByKey(String key) {
-        if (map.get(key) == null)
+        if (treeMap.get(key) == null)
             return null;
-        int length = map.get(key).size();
+        int length = treeMap.get(key).size();
         String[][] datas = new String[length][2];
-        List<String> values = map.get(key);
+        List<String> values = treeMap.get(key);
         for (int i = 0; i < length; i++) {
             datas[i][0] = key;
             datas[i][1] = values.get(i);
@@ -94,7 +95,7 @@ public class SlangWord {
     public String[][] findByDefinition(String definition) {
         List<String> slangs = new ArrayList<>();
         List<String> definitions = new ArrayList<>();
-        for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+        for (Map.Entry<String, List<String>> entry : treeMap.entrySet()) {
             List<String> values = entry.getValue();
             for (String value : values) {
                 if (value.toLowerCase(Locale.ROOT).contains(definition.toLowerCase(Locale.ROOT).trim())) {
@@ -130,7 +131,7 @@ public class SlangWord {
         }
         Set<String> set = new HashSet<String>(keys);
         for (String key : set) {
-            List<String> values = map.get(key);
+            List<String> values = treeMap.get(key);
             if (values != null) {
                 for (String value : values) {
                     keyArr.add(key);
@@ -160,7 +161,7 @@ public class SlangWord {
         bw1.flush();
         bw1.close();
         BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
-        for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+        for (Map.Entry<String, List<String>> entry : treeMap.entrySet()) {
             StringBuilder line = new StringBuilder(entry.getKey() + "`");
             List<String> values = entry.getValue();
             line.append(values.get(0));
@@ -179,29 +180,29 @@ public class SlangWord {
     public void addNew(String slang, String definition) throws IOException {
         List<String> values = new ArrayList<>();
         values.add(definition);
-        sizeMap++;
-        map.put(slang, values);
+        lengthValues++;
+        treeMap.put(slang, values);
         this.saveAllToFile(FILE_COPY);
     }
 
     public void addOverwrite(String slang, String definition) throws IOException {
-        List<String> values = map.get(slang);
+        List<String> values = treeMap.get(slang);
         values.set(0, definition);
-        map.put(slang, values);
+        treeMap.put(slang, values);
         this.saveAllToFile(FILE_COPY);
     }
 
     public void addDuplicate(String slang, String definition) throws IOException {
-        List<String> values = map.get(slang);
+        List<String> values = treeMap.get(slang);
         values.add(definition);
-        sizeMap++;
-        map.put(slang, values);
+        lengthValues++;
+        treeMap.put(slang, values);
         this.saveAllToFile(FILE_COPY);
     }
 
     public void editSlangSword(String slang, String oldDefinition, String newDefinition) throws IOException {
         int position = 0;
-        List<String> values = map.get(slang);
+        List<String> values = treeMap.get(slang);
         for (int i = 0; i < values.size(); i++) {
             if (values.get(i).equals(slang)) {
                 position = i;
@@ -213,9 +214,9 @@ public class SlangWord {
     }
 
     public void deleteSlangWord(String slang, String definition) {
-        List<String> values = map.get(slang);
+        List<String> values = treeMap.get(slang);
         if (values.size() == 1)
-            map.remove(slang);
+            treeMap.remove(slang);
         else {
             for (int i = 0; i < values.size(); i++) {
                 if (values.get(i).equals(definition)) {
@@ -223,9 +224,9 @@ public class SlangWord {
                     break;
                 }
             }
-            map.replace(slang, values);
+            treeMap.replace(slang, values);
         }
-        sizeMap--;
+        lengthValues--;
         try {
             this.saveAllToFile(FILE_COPY);
         } catch (IOException e) {
@@ -234,11 +235,23 @@ public class SlangWord {
     }
 
     public boolean checkDuplicate(String slang) {
-        for (String str : map.keySet()) {
+        for (String str : treeMap.keySet()) {
             if (str.equals(slang))
                 return true;
         }
         return false;
+    }
+
+    public List<String> randomSlangWord()
+    {
+        List<String> slangWord = new ArrayList<>();
+        int randomNum = ThreadLocalRandom.current().nextInt(0, treeMap.size());
+        Set<String> set = treeMap.keySet();
+        List<String> keyList = new ArrayList<>(set);
+        String slang = keyList.get(randomNum);
+        slangWord.add(slang);
+        slangWord.addAll(treeMap.get(slang));
+        return slangWord;
     }
 
     public static void printArray(String[] arr) {

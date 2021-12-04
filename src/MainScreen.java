@@ -29,6 +29,10 @@ public class MainScreen extends JFrame implements ActionListener {
                 this.dispose();
                 new DeleteScreen();
                 break;
+            case "Random":
+                this.dispose();
+                new RandomScreen();
+                break;
         }
     }
 
