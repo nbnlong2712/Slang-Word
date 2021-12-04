@@ -70,7 +70,7 @@ public class DeleteScreen extends JFrame implements ActionListener {
                 TableModel model = (TableModel) e.getSource();
                 String slang = (String) model.getValueAt(row, 0);
                 String definition = (String) model.getValueAt(row, 1);
-                Object[] options = {"Delete", "Cancel"};
+                String[] options = {"Delete", "Cancel"};
                 int opt = JOptionPane.showOptionDialog(DeleteScreen.this, "Are you sure to delete this word?"
                         , "Delete Slang Word", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE
                         , null, options, null);

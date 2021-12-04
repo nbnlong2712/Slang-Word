@@ -34,7 +34,7 @@ public class FindScreen extends JFrame implements ActionListener {
         labelPanel.setMaximumSize(new Dimension(400, 120));
         JLabel label = new JLabel("FIND");
         label.setForeground(Color.RED);
-        label.setFont(new Font("Gill Sans MT", Font.ITALIC, 45));
+        label.setFont(new Font("", Font.BOLD, 45));
         label.setAlignmentX(CENTER_ALIGNMENT);
 
         labelPanel.add(label, BorderLayout.CENTER);
@@ -43,13 +43,11 @@ public class FindScreen extends JFrame implements ActionListener {
         btnPanel.setLayout(new GridLayout(2, 4, 10, 10));
 
         btnFindSlangWord = new JButton("Find Slang Word");
-        btnFindSlangWord.setFont(new Font("Gill Sans MT", Font.PLAIN, 16));
         btnFindSlangWord.setMargin(new Insets(50, 110, 50, 110));
         btnFindSlangWord.setActionCommand("Slang");
         btnFindSlangWord.addActionListener(this);
 
         btnFindDefinition = new JButton("Find By Definition");
-        btnFindDefinition.setFont(new Font("Gill Sans MT", Font.PLAIN, 16));
         btnFindDefinition.setMargin(new Insets(50, 110, 50, 110));
         btnFindDefinition.setActionCommand("Definition");
         btnFindDefinition.addActionListener(this);
@@ -59,8 +57,7 @@ public class FindScreen extends JFrame implements ActionListener {
         findPanel.add(btnFindSlangWord);
         findPanel.add(btnFindDefinition);
 
-        btnBack = new JButton("Back");
-        btnBack.setFont(new Font("Gill Sans MT", Font.PLAIN, 16));
+        btnBack = new JButton("BACK");
         btnBack.setActionCommand("Back");
         btnBack.setMargin(new Insets(20,70,20,70));
         btnBack.setSize(300, 300);

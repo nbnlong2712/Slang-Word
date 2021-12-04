@@ -49,7 +49,7 @@ public class HistoryScreen extends JFrame implements ActionListener {
         topPanel.setMaximumSize(new Dimension(1000, 150));
         JLabel label = new JLabel("History");
         label.setForeground(Color.RED);
-        label.setFont(new Font("Gill Sans MT", Font.ITALIC, 45));
+        label.setFont(new Font("", Font.ITALIC, 45));
         topPanel.add(label);
 
         JPanel centerPanel = new JPanel();

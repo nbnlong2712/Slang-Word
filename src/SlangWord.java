@@ -33,6 +33,7 @@ public class SlangWord {
     void readFromFile(String file) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(file));
         String line = reader.readLine();
+        map.clear();
         sizeMap = 0;
 
         while ((line = reader.readLine()) != null) {
@@ -130,9 +131,11 @@ public class SlangWord {
         Set<String> set = new HashSet<String>(keys);
         for (String key : set) {
             List<String> values = map.get(key);
-            for (String value : values) {
-                keyArr.add(key);
-                valueArr.add(value);
+            if (values != null) {
+                for (String value : values) {
+                    keyArr.add(key);
+                    valueArr.add(value);
+                }
             }
         }
         String[][] arr = new String[keyArr.size()][2];
@@ -215,8 +218,7 @@ public class SlangWord {
             map.remove(slang);
         else {
             for (int i = 0; i < values.size(); i++) {
-                if (values.get(i).equals(definition))
-                {
+                if (values.get(i).equals(definition)) {
                     values.remove(i);
                     break;
                 }

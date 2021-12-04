@@ -25,7 +25,7 @@ public class AddScreen extends JFrame implements ActionListener {
                             JOptionPane.showMessageDialog(this, "Add failed!");
                         }
                     } else {
-                        Object[] options = {"Overwrite", "Duplicate"};
+                        String[] options = {"Overwrite", "Duplicate"};
                         int opt = JOptionPane.showOptionDialog(this, "This word existed! Overwrite or Duplicate"
                                 , "Existed word!", JOptionPane.YES_NO_CANCEL_OPTION
                                 , JOptionPane.QUESTION_MESSAGE, null, options, null);

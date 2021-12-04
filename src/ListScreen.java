@@ -6,9 +6,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.List;
 
 public class ListScreen extends JFrame implements ActionListener {
-    private JButton btnBack;
+    private JButton btnBack, btnReset;
     private JTable table;
     SlangWord slangWord;
     String[] columnNames = {
@@ -23,6 +24,23 @@ public class ListScreen extends JFrame implements ActionListener {
             case "Back":
                 this.dispose();
                 new MainScreen();
+                break;
+            case "Reset":
+                String[] option = {"Reset", "Cancel"};
+                int opt = JOptionPane.showOptionDialog(this, "Are you sure to reset list?", "Reset List",
+                        JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, option, null);
+                if (opt == 0) {
+                    try {
+                        slangWord.readFromFile(SlangWord.FILE_ROOT);
+                        slangWord.saveAllToFile(SlangWord.FILE_COPY);
+                        JOptionPane.showMessageDialog(this, "Reset successful!");
+                        this.dispose();
+                        new MainScreen();
+                    } catch (IOException ioException) {
+                        JOptionPane.showMessageDialog(this, "Reset failed!");
+                        ioException.printStackTrace();
+                    }
+                }
                 break;
         }
     }
@@ -48,7 +66,7 @@ public class ListScreen extends JFrame implements ActionListener {
         topPanel.setMaximumSize(new Dimension(1000, 150));
         JLabel label = new JLabel("List Word");
         label.setForeground(Color.RED);
-        label.setFont(new Font("Gill Sans MT", Font.ITALIC, 45));
+        label.setFont(new Font("", Font.BOLD, 45));
         topPanel.add(label);
 
         JPanel centerPanel = new JPanel();
@@ -84,6 +102,13 @@ public class ListScreen extends JFrame implements ActionListener {
         btnBack.setActionCommand("Back");
         btnBack.addActionListener(this);
         btnBack.setMaximumSize(new Dimension(150, 80));
+
+        btnReset = new JButton("Reset");
+        btnReset.setActionCommand("Reset");
+        btnReset.addActionListener(this);
+        btnReset.setMaximumSize(new Dimension(150, 80));
+
+        bottomPanel.add(btnReset);
         bottomPanel.add(btnBack);
 
         panel.add(topPanel);
@@ -100,4 +125,6 @@ public class ListScreen extends JFrame implements ActionListener {
         this.pack();
         this.setVisible(true);
     }
+
+
 }
