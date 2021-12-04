@@ -1,5 +1,8 @@
 import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -79,6 +82,26 @@ public class FindSlangWordScreen extends JFrame implements ActionListener {
         centerPanel.setLayout(new BorderLayout());
 
         jTable = new JTable(new DefaultTableModel(columnName, 0));
+        jTable.getModel().addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                int row = e.getFirstRow();
+                int column = e.getColumn();
+                if (row == -1 || column == -1)
+                    return;
+                TableModel model = (TableModel) e.getSource();
+                Object data2 = model.getValueAt(row, column);
+                if (column == 1) {
+                    try {
+                        slangWord.editSlangSword((String) model.getValueAt(row, 0), data[row][1], ((String) data2).trim());
+                        JOptionPane.showMessageDialog(FindSlangWordScreen.this, "Edit successful!");
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                        JOptionPane.showMessageDialog(FindSlangWordScreen.this, "Edit failed!");
+                    }
+                }
+            }
+        });
 
         JScrollPane jScrollPane = new JScrollPane(jTable);
         centerPanel.add(jScrollPane);

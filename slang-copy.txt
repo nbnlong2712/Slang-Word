@@ -4475,7 +4475,7 @@ NBG`Nasty But Good
 NBIF`No Basis In Fact
 NBK`Natural Born Killers| Never Been Kissed
 NBM`Nil By Mouth| Not Before Midnight
-NBNL`LCK|LC Nguyen
+NBNL`Nguyen Ba Nhat Long|LC Nguyen
 NBSB`No Boyfriend Since Birth
 NBT`Nothing But Trouble
 NBTD`Nothing Better To Do
