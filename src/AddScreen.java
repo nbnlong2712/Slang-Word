@@ -19,36 +19,31 @@ public class AddScreen extends JFrame implements ActionListener {
                     if (!slangWord.checkDuplicate(tfSlangWord.getText().trim())) {
                         try {
                             slangWord.addNew(tfSlangWord.getText().trim(), tfDefinition.getText().trim());
-                            JOptionPane.showMessageDialog(this,"Add success!");
+                            JOptionPane.showMessageDialog(this, "Add success!");
                         } catch (IOException ioException) {
                             ioException.printStackTrace();
-                            JOptionPane.showMessageDialog(this,"Add failed!");
+                            JOptionPane.showMessageDialog(this, "Add failed!");
                         }
-                    }
-                    else
-                    {
+                    } else {
                         Object[] options = {"Overwrite", "Duplicate"};
-                        int n = JOptionPane.showOptionDialog(this, "This word existed! Overwrite or Duplicate"
+                        int opt = JOptionPane.showOptionDialog(this, "This word existed! Overwrite or Duplicate"
                                 , "Existed word!", JOptionPane.YES_NO_CANCEL_OPTION
                                 , JOptionPane.QUESTION_MESSAGE, null, options, null);
-                        if (n == 0)
-                        {
+                        if (opt == 0) {
                             try {
                                 slangWord.addOverwrite(tfSlangWord.getText().trim(), tfDefinition.getText().trim());
-                                JOptionPane.showMessageDialog(this,"Add success!");
+                                JOptionPane.showMessageDialog(this, "Add success!");
                             } catch (IOException ioException) {
                                 ioException.printStackTrace();
-                                JOptionPane.showMessageDialog(this,"Add failed!");
+                                JOptionPane.showMessageDialog(this, "Add failed!");
                             }
-                        }
-                        else if (n==1)
-                        {
+                        } else if (opt == 1) {
                             try {
                                 slangWord.addDuplicate(tfSlangWord.getText().trim(), tfDefinition.getText().trim());
-                                JOptionPane.showMessageDialog(this,"Add success!");
+                                JOptionPane.showMessageDialog(this, "Add success!");
                             } catch (IOException ioException) {
                                 ioException.printStackTrace();
-                                JOptionPane.showMessageDialog(this,"Add failed!");
+                                JOptionPane.showMessageDialog(this, "Add failed!");
                             }
                         }
                     }
@@ -129,9 +124,5 @@ public class AddScreen extends JFrame implements ActionListener {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.pack();
         this.setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        new AddScreen();
     }
 }

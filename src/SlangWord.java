@@ -199,10 +199,8 @@ public class SlangWord {
     public void editSlangSword(String slang, String oldDefinition, String newDefinition) throws IOException {
         int position = 0;
         List<String> values = map.get(slang);
-        for (int i=0; i<values.size(); i++)
-        {
-            if (values.get(i).equals(slang))
-            {
+        for (int i = 0; i < values.size(); i++) {
+            if (values.get(i).equals(slang)) {
                 position = i;
                 break;
             }
@@ -211,8 +209,29 @@ public class SlangWord {
         this.saveAllToFile(FILE_COPY);
     }
 
-    public boolean checkDuplicate(String slang)
-    {
+    public void deleteSlangWord(String slang, String definition) {
+        List<String> values = map.get(slang);
+        if (values.size() == 1)
+            map.remove(slang);
+        else {
+            for (int i = 0; i < values.size(); i++) {
+                if (values.get(i).equals(definition))
+                {
+                    values.remove(i);
+                    break;
+                }
+            }
+            map.replace(slang, values);
+        }
+        sizeMap--;
+        try {
+            this.saveAllToFile(FILE_COPY);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean checkDuplicate(String slang) {
         for (String str : map.keySet()) {
             if (str.equals(slang))
                 return true;
