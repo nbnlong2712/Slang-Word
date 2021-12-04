@@ -127,7 +127,8 @@ public class SlangWord {
             keys.add(line);
             line = br.readLine();
         }
-        for (String key : keys) {
+        Set<String> set = new HashSet<String>(keys);
+        for (String key : set) {
             List<String> values = map.get(key);
             for (String value : values) {
                 keyArr.add(key);
@@ -156,7 +157,6 @@ public class SlangWord {
         bw1.flush();
         bw1.close();
         BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
-        //bw.write("Slag`Meaning\n");
         for (Map.Entry<String, List<String>> entry : map.entrySet()) {
             StringBuilder line = new StringBuilder(entry.getKey() + "`");
             List<String> values = entry.getValue();
@@ -193,6 +193,21 @@ public class SlangWord {
         values.add(definition);
         sizeMap++;
         map.put(slang, values);
+        this.saveAllToFile(FILE_COPY);
+    }
+
+    public void editSlangSword(String slang, String oldDefinition, String newDefinition) throws IOException {
+        int position = 0;
+        List<String> values = map.get(slang);
+        for (int i=0; i<values.size(); i++)
+        {
+            if (values.get(i).equals(slang))
+            {
+                position = i;
+                break;
+            }
+        }
+        values.set(position, newDefinition);
         this.saveAllToFile(FILE_COPY);
     }
 

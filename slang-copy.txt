@@ -1,9 +1,9 @@
 Slag`Meaning
-#1`Number one
-$`Dollar| money
-$_$`Has money
-%)`Drunk| giddy
-&`And
+#1`Number one1
+$` moneyHeist| money
+$_$`Has a lot of money
+%)` giddyyyy| giddy
+&`Andy Caroll
 &APOS;S`Wrongly displayed 's
 &HEARTS;`HTML code for a heart
 'EM`Them
