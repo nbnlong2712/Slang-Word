@@ -3,7 +3,7 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) throws Exception {
         SlangWord slangWord = new SlangWord();
-
+        slangWord.readFromFile(SlangWord.FILE_COPY);
         //slangWord.readFromFile("test-copy.txt");
 
 
@@ -19,6 +19,8 @@ public class Main {
 
         //slangWord.saveAllToFile("test-copy.txt");
 
-        SlangWord.print2dArray(slangWord.convertData());
+        System.out.println(slangWord.quizBySlangWord());
+
+        //SlangWord.print2dArray(slangWord.convertData());
     }
 }

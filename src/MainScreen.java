@@ -33,6 +33,10 @@ public class MainScreen extends JFrame implements ActionListener {
                 this.dispose();
                 new RandomScreen();
                 break;
+            case "Quiz":
+                this.dispose();
+                new QuizScreen();
+                break;
         }
     }
 
@@ -93,12 +97,12 @@ public class MainScreen extends JFrame implements ActionListener {
         panel.add(labelPanel);
         panel.add(btnPanel);
 
-        Container con = this.getContentPane();
-        con.setMaximumSize(new Dimension(900, 600));
-        con.setMinimumSize(new Dimension(900, 600));
-        con.setPreferredSize(new Dimension(900, 600));
-        con.setLayout(new BoxLayout(con, BoxLayout.Y_AXIS));
-        con.add(panel);
+        Container container = this.getContentPane();
+        container.setMaximumSize(new Dimension(900, 600));
+        container.setMinimumSize(new Dimension(900, 600));
+        container.setPreferredSize(new Dimension(900, 600));
+        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+        container.add(panel);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setTitle("Slang Word");
         this.pack();

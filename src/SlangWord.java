@@ -242,8 +242,7 @@ public class SlangWord {
         return false;
     }
 
-    public List<String> randomSlangWord()
-    {
+    public List<String> randomSlangWord() {
         List<String> slangWord = new ArrayList<>();
         int randomNum = ThreadLocalRandom.current().nextInt(0, treeMap.size());
         Set<String> set = treeMap.keySet();
@@ -252,6 +251,65 @@ public class SlangWord {
         slangWord.add(slang);
         slangWord.addAll(treeMap.get(slang));
         return slangWord;
+    }
+
+    public List<String> quizBySlangWord() {
+        List<String> slangWord = new ArrayList<>();
+        int randomNum = ThreadLocalRandom.current().nextInt(0, treeMap.size());
+        Set<String> set = treeMap.keySet();
+        List<String> keyList = new ArrayList<>(set);
+        String slang = keyList.get(randomNum);
+        slangWord.add(slang);
+        slangWord.add(treeMap.get(slang).get(0));
+        int count = 0;
+        while (true) {
+            randomNum = ThreadLocalRandom.current().nextInt(0, treeMap.size());
+            slang = keyList.get(randomNum);
+            if (checkExistsSlangWord(slang, slangWord))
+                continue;
+            else {
+                slangWord.add(treeMap.get(slang).get(0));
+                count++;
+            }
+            if (count == 3)
+                break;
+        }
+        return slangWord;
+    }
+
+    public List<String> quizByDefinition() {
+        List<String> slangWord = new ArrayList<>();
+
+        int randomNum = ThreadLocalRandom.current().nextInt(0, treeMap.size());
+
+        Set<String> set = treeMap.keySet();
+        List<String> keyList = new ArrayList<>(set);
+
+        String slang = keyList.get(randomNum);
+        slangWord.add(treeMap.get(slang).get(0));
+        slangWord.add(slang);
+        int count = 0;
+        while (true) {
+            randomNum = ThreadLocalRandom.current().nextInt(0, treeMap.size());
+            slang = keyList.get(randomNum);
+            if (checkExistsSlangWord(slang, slangWord))
+                continue;
+            else {
+                slangWord.add(slang);
+                count++;
+            }
+            if (count == 3)
+                break;
+        }
+        return slangWord;
+    }
+
+    public boolean checkExistsSlangWord(String word, List<String> list) {
+        for (String str : list) {
+            if (str.equals(word))
+                return true;
+        }
+        return false;
     }
 
     public static void printArray(String[] arr) {
